@@ -1,0 +1,89 @@
+cabal-version: 3.0
+
+name:                   cardano-entropy
+version:                0.0.0.1
+synopsis:               Primitive functions and data types
+description:            Primitive functions and data types.
+category:               Data
+stability:              Experimental
+homepage:               http://github.com/haskell-works/cardano-entropy#readme
+bug-reports:            https://github.com/haskell-works/cardano-entropy/issues
+author:                 John Ky
+maintainer:             operations@iohk.io
+copyright:              (c) 2021 IOHK
+license:                Apache-2.0
+license-file:           LICENSE
+tested-with:            GHC == 8.10.4
+build-type:             Simple
+extra-source-files:     README.md
+
+source-repository head
+  type:                 git
+  location:             https://github.com/haskell-works/cardano-entropy
+
+flag bounds-checking-enabled
+  description:          Enable bmi2 instruction set
+  manual:               False
+  default:              False
+
+common base                       { build-depends: base                       >= 4.11       && < 5      }
+
+common bytestring                 { build-depends: bytestring                 >= 0.9        && < 0.11   }
+common directory                  { build-depends: directory                  >= 1.2        && < 1.4    }
+common exceptions                 { build-depends: exceptions                 >= 0.8        && < 0.11   }
+common hedgehog                   { build-depends: hedgehog                   >= 1.0        && < 1.1    }
+common hspec                      { build-depends: hspec                      >= 2.4        && < 2.8    }
+common hw-hspec-hedgehog          { build-depends: hw-hspec-hedgehog          >= 0.1        && < 0.2    }
+common optparse-applicative       { build-depends: optparse-applicative       >= 0.16.1.0   && < 0.17   }
+common semigroups                 { build-depends: semigroups                 >= 0.8.4      && < 0.20   }
+common transformers               { build-depends: transformers               >= 0.4        && < 0.6    }
+common unliftio-core              { build-depends: unliftio-core              >= 0.1.2.0    && < 0.3    }
+common vector                     { build-depends: vector                     >= 0.12       && < 0.13   }
+common webdriver                  { build-depends: webdriver                  >= 0.9.0.1    && < 0.10   }
+
+common cardano-entropy
+  build-depends:        cardano-entropy
+
+common project-config
+  default-language:     Haskell2010
+
+  if flag(bounds-checking-enabled)
+    cpp-options:        -DBOUNDS_CHECKING_ENABLED
+
+library
+  import:               base, project-config
+                      , bytestring
+                      , transformers
+                      , unliftio-core
+                      , vector
+  exposed-modules:      Cardano.Entropy
+  other-modules:        Paths_cardano_entropy
+  autogen-modules:      Paths_cardano_entropy
+  hs-source-dirs:       src
+
+executable cardano-entropy
+  import:               base, project-config
+                      , cardano-entropy
+                      , optparse-applicative
+                      , webdriver
+  main-is:              Main.hs
+  hs-source-dirs:       app
+  ghc-options:          -threaded -rtsopts "-with-rtsopts=-T -I0"
+
+test-suite cardano-entropy-test
+  import:               base, project-config
+                      , bytestring
+                      , directory
+                      , exceptions
+                      , hedgehog
+                      , hspec
+                      , hw-hspec-hedgehog
+                      , cardano-entropy
+                      , transformers
+                      , vector
+  type:                 exitcode-stdio-1.0
+  main-is:              Spec.hs
+  other-modules:
+  hs-source-dirs:       test
+  ghc-options:          -threaded -rtsopts -with-rtsopts=-N
+  build-tool-depends:   hspec-discover:hspec-discover
