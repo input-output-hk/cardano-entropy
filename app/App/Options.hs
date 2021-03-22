@@ -11,4 +11,4 @@ readTime = eitherReader go
   where go :: String -> Either String UTCTime
         go s = case parseTime s of
           Just t -> return t
-          Nothing -> Left "Cannot parse time.  Expected: 'YYYY-mm-DDTHH::MM:SS'"
+          Nothing -> Left "Cannot parse time.  Expected: 'YYYY-mm-DDTHH:MM:SS'"
