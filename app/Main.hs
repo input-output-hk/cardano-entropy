@@ -1,21 +1,12 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module Main where
+import App.Cli.Commands
+import Control.Monad
+import Options.Applicative
 
-import Data.Function
-
-import qualified Test.WebDriver as WD
-
-chromeConfig :: WD.WDConfig
-chromeConfig = WD.defaultConfig
-  & WD.useBrowser WD.chrome
+import qualified System.Environment as IO
 
 main :: IO ()
-main = WD.runSession chromeConfig $ do
-  WD.openPage "http://google.com"
-
-  searchInput <- WD.findElem ( WD.ByCSS "input[type='text']" )
-
-  WD.sendKeys "Hello, World!" searchInput
-  WD.submit searchInput
-  WD.closeSession
+main = do
+  join $ customExecParser
+    (prefs $ showHelpOnEmpty <> showHelpOnError)
+    (info (commands <**> helper) idm)
