@@ -31,7 +31,6 @@ common base                       { build-depends: base                       >=
 common aeson                      { build-depends: aeson                      >= 1.5        && < 1.6    }
 common async                      { build-depends: async                      >= 2.2.3      && < 2.3    }
 common bytestring                 { build-depends: bytestring                 >= 0.9        && < 0.11   }
-common cassava                    { build-depends: cassava                    >= 0.5.2.0    && < 0.6    }
 common containers                 { build-depends: containers                 >= 0.6.4.1    && < 0.7    }
 common cryptonite                 { build-depends: cryptonite                 >= 0.28       && < 0.29   }
 common directory                  { build-depends: directory                  >= 1.2        && < 1.4    }
@@ -77,14 +76,11 @@ library
                       , aeson
                       , async
                       , bytestring
-                      , cassava
-                      , containers
                       , cryptonite
                       , directory
                       , filepath
                       , generic-lens
                       , lens
-                      , split
                       , streaming-bytestring
                       , streaming-utils
                       , monad-loops
@@ -93,7 +89,6 @@ library
                       , text
                       , time
                       , unordered-containers
-                      , vector
                       , webdriver
   exposed-modules:      Cardano.Entropy.Feed.GeolUoa
                         Cardano.Entropy.Feed.Gis
@@ -123,15 +118,7 @@ executable cardano-entropy
 
 test-suite cardano-entropy-test
   import:               base, project-config
-                      , bytestring
-                      , directory
-                      , exceptions
-                      , hedgehog
                       , hspec
-                      , hw-hspec-hedgehog
-                      , cardano-entropy
-                      , transformers
-                      , vector
   type:                 exitcode-stdio-1.0
   main-is:              Spec.hs
   other-modules:

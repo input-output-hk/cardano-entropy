@@ -4,28 +4,51 @@ module App.Cli.Commands.Nyse
 
 import Options.Applicative hiding (columns)
 
+import qualified App.Options                as OPT
 import qualified Cardano.Entropy.Feed.Nyse  as ENT
 import qualified Cardano.Entropy.Types.Nyse as Z
+import qualified Options.Applicative        as OPT
 
 optsNyse :: Parser Z.NyseOptions
 optsNyse = Z.NyseOptions
-  <$> strOption
-      (   long "workspace"
-      <>  short 'w'
-      <>  help "Workspace"
-      <>  metavar "DIRECTORY"
+  <$> OPT.strOption
+      (   OPT.long "workspace"
+      <>  OPT.short 'w'
+      <>  OPT.help "Workspace"
+      <>  OPT.metavar "DIRECTORY"
       )
-  <*> strOption
-      (   long "username"
-      <>  short 'u'
-      <>  help "User name"
-      <>  metavar "STRING"
+  <*> OPT.strOption
+      (   OPT.long "username"
+      <>  OPT.short 'u'
+      <>  OPT.help "User name"
+      <>  OPT.metavar "STRING"
       )
-  <*> strOption
-      (   long "password"
-      <>  short 'p'
-      <>  help "Password"
-      <>  metavar "STRING"
+  <*> OPT.strOption
+      (   OPT.long "password"
+      <>  OPT.short 'p'
+      <>  OPT.help "Password"
+      <>  OPT.metavar "STRING"
+      )
+  <*> OPT.option OPT.readDate
+      (   OPT.long "date"
+      <>  OPT.short 'e'
+      <>  OPT.help "Date"
+      <>  OPT.metavar "UTC_DATE"
+      <>  OPT.showDefault
+      )
+  <*> OPT.option OPT.auto
+      (   OPT.long "headless"
+      <>  OPT.help "Whether to run in headless mode"
+      <>  OPT.metavar "BOOLEAN"
+      <>  OPT.value True
+      <>  OPT.showDefault
+      )
+  <*> OPT.option OPT.auto
+      (   OPT.long "exit-delay"
+      <>  OPT.help "Exit delay in seconds"
+      <>  OPT.metavar "SECONDS"
+      <>  OPT.value 0
+      <>  OPT.showDefault
       )
 
 cmdNyse :: Mod CommandFields (IO ())
