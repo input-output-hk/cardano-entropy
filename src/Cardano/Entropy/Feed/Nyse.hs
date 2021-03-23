@@ -8,31 +8,21 @@ module Cardano.Entropy.Feed.Nyse
 
 import Cardano.Entropy.Types.Nyse (NyseOptions)
 import Control.Lens               ((^.))
-import Control.Monad              (forM_)
 import Control.Monad.IO.Class
 import Control.Monad.Loops        (untilJust)
 import Crypto.Hash
 import Data.Aeson                 ((.=))
-import Data.ByteString            (ByteString)
 import Data.Function
 import Data.Generics.Product.Any
 import Data.Maybe                 (listToMaybe)
-import Data.Text
-import System.FilePath            ((<.>), (</>))
 
 import qualified Control.Concurrent       as IO
 import qualified Control.Concurrent.Async as IO
-import qualified Control.Concurrent.STM   as STM
 import qualified Data.Aeson               as J
-import qualified Data.ByteArray.Encoding  as B
 import qualified Data.ByteString          as BS
-import qualified Data.ByteString.Lazy     as LBS
-import qualified Data.HashMap.Lazy        as HML
 import qualified Data.HashMap.Strict      as HMS
 import qualified Data.List                as L
-import qualified Data.Text                as T
 import qualified System.Directory         as IO
-import qualified System.Environment       as IO
 import qualified System.IO                as IO
 import qualified System.IO.Temp           as IO
 import qualified Test.WebDriver           as WD
