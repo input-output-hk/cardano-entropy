@@ -9,5 +9,5 @@ import GHC.Generics (Generic)
 
 data GeolUoaOptions = GeolUoaOptions
   { workspace :: FilePath
-  , endTime :: UTCTime
+  , endTime   :: UTCTime
   } deriving (Eq, Generic, Show)

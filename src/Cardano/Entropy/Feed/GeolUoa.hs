@@ -17,25 +17,18 @@ import Control.Monad.Trans.Resource
 import Crypto.Hash
 import Data.Generics.Product.Any
 import Data.Text                     (Text)
-import Data.Time                     (UTCTime)
-import Data.Vector                   (Vector)
-import System.FilePath               ((<.>), (</>))
+import Prelude                       hiding (lines)
+import System.FilePath               ((</>))
 
 import qualified Cardano.Entropy.IO             as IO
 import qualified Cardano.Entropy.Time           as DT
 import qualified Data.ByteString                as BS
-import qualified Data.ByteString.Lazy           as LBS
 import qualified Data.ByteString.Streaming.HTTP as BSS
-import qualified Data.Csv                       as CSV
 import qualified Data.List                      as L
-import qualified Data.List.Split                as L
-import qualified Data.Set                       as S
 import qualified Data.Text                      as T
 import qualified Data.Text.IO                   as T
 import qualified Data.Time.Clock                as DT
-import qualified Data.Time.Format               as DT
 import qualified Streaming.ByteString           as BSS
-import qualified System.Environment             as IO
 import qualified System.IO                      as IO
 import qualified System.IO.Temp                 as IO
 
@@ -44,8 +37,8 @@ hashGeolUoa opts = do
   let workspace     = opts ^. the @"workspace"
   let endTime       = opts ^. the @"endTime"
   let startTime     = DT.addUTCTime (-24 * 60 * 60) endTime
-  let startTimeStr  = T.pack $ DT.showTime startTime
-  let endTimeStr    = T.pack $ DT.showTime endTime
+  let startTimeStr  = T.pack $ DT.showDateTime startTime
+  let endTimeStr    = T.pack $ DT.showDateTime endTime
 
   downloadPath <- IO.createTempDirectory workspace "download-geol-uoa"
 
@@ -73,7 +66,7 @@ hashGeolUoa opts = do
     let eventLines = L.drop 1 lines
 
     let timesWithUTC = map (\line -> (line, toUTC line)) eventLines
-    let filteredLines :: [Text] = fst <$> L.filter (\(line, utc) -> ocBetween startTimeStr endTimeStr utc) timesWithUTC
+    let filteredLines :: [Text] = fst <$> L.filter (\(_line, utc) -> ocBetween startTimeStr endTimeStr utc) timesWithUTC
     when (null filteredLines) $
         liftIO $ throwIO $ userError "no entropy found. Try a different date"
     liftIO . forM_ filteredLines $ T.hPutStrLn hOut

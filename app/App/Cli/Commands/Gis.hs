@@ -12,16 +12,16 @@ import qualified Options.Applicative       as OPT
 optsGis :: Parser Z.GisOptions
 optsGis = Z.GisOptions
   <$> OPT.strOption
-      (   long "workspace"
-      <>  short 'w'
-      <>  help "Workspace"
-      <>  metavar "DIRECTORY"
+      (   OPT.long "workspace"
+      <>  OPT.short 'w'
+      <>  OPT.help "Workspace"
+      <>  OPT.metavar "DIRECTORY"
       )
-  <*> OPT.option OPT.readTime
-      (   long "end-date"
-      <>  short 'e'
-      <>  help "End Date"
-      <>  metavar "UTC_TIME"
+  <*> OPT.option OPT.readDateTime
+      (   OPT.long "end-date"
+      <>  OPT.short 'e'
+      <>  OPT.help "End Date"
+      <>  OPT.metavar "UTC_TIME"
       )
 
 cmdGis :: Mod CommandFields (IO ())

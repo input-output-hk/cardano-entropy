@@ -1,14 +1,22 @@
 module Cardano.Entropy.Time
-  ( parseTime
-  , showTime
+  ( parseDateTime
+  , showDateTime
+  , parseDate
+  , showAmericanDate
   ) where
 
-import Data.Time (UTCTime)
+import Data.Time (Day, UTCTime)
 
 import qualified Data.Time.Format as DT
 
-parseTime :: String -> Maybe UTCTime
-parseTime = DT.parseTimeM False DT.defaultTimeLocale "%Y-%m-%dT%H:%M:%S"
+parseDateTime :: String -> Maybe UTCTime
+parseDateTime = DT.parseTimeM False DT.defaultTimeLocale "%Y-%m-%dT%H:%M:%S"
 
-showTime :: UTCTime -> String
-showTime = DT.formatTime DT.defaultTimeLocale "%Y-%m-%dT%H:%M:%S"
+showDateTime :: UTCTime -> String
+showDateTime = DT.formatTime DT.defaultTimeLocale "%Y-%m-%dT%H:%M:%S"
+
+parseDate :: String -> Maybe Day
+parseDate = DT.parseTimeM False DT.defaultTimeLocale "%Y-%m-%d"
+
+showAmericanDate :: Day -> String
+showAmericanDate = DT.formatTime DT.defaultTimeLocale "%m/%d/%Y"

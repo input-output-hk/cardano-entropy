@@ -9,7 +9,7 @@ $ brew install chromedriver
 ## Run to download NYSE data and take its hash
 
 ```bash
-$ cabal -v0 run cardano-entropy nyse --workspace="$WORKSPACE" --username="$USERNAME" --password="$PASSWORD"
+$ cabal -v0 run cardano-entropy nyse --workspace="$WORKSPACE" --username="$USERNAME" --password="$PASSWORD" --date="$DATE"
 Downloaded: /Users/jky/tmp/download-0ac80eea1ebf36da/NYSE_20210319.csv
 Hash: 42e1611e701d4b8885da5ef5cf54f2e4a56f77b675835fcae6c132aff09a0f46
 ```
@@ -19,6 +19,8 @@ Options:
 * `--worksapce`: Where temporary files will go.  This can be set to your temporary directory.
 * `--username`: Username obtained by registering on http://www.eoddata.com/.
 * `--password`: Password obtained by registering on http://www.eoddata.com/.
+* `--date`: The date for which end of day market data should be downloaded.  Format `YYYY-MM-DD`.
+* `--headless`: Whether or not to run Chrome headless.  `True` or `False`.  Default `True`.
 
 ## Run to download GIS data and take its hash
 

@@ -35,8 +35,8 @@ hashGis opts = do
   let workspace     = opts ^. the @"workspace"
   let endTime       = opts ^. the @"endTime"
   let startTime     = DT.addUTCTime (-24 * 60 * 60) endTime
-  let startTimeStr  = T.pack $ DT.showTime startTime
-  let endTimeStr    = T.pack $ DT.showTime endTime
+  let startTimeStr  = T.pack $ DT.showDateTime startTime
+  let endTimeStr    = T.pack $ DT.showDateTime endTime
 
   downloadPath <- IO.createTempDirectory workspace "download"
 
