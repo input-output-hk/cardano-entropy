@@ -66,7 +66,7 @@ hashGis opts = do
 
     liftIO . forM_ filteredLines $ T.hPutStrLn hOut
 
-  contents <- liftIO $ BS.readFile weekCsvFile
+  contents <- liftIO $ BS.readFile dayInWeekCsvFile
   liftIO . IO.putStrLn $ "Hash: " <> show (hashWith SHA256 contents)
 
   return ()
