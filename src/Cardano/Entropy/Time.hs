@@ -3,7 +3,7 @@ module Cardano.Entropy.Time
   , showTime
   ) where
 
-import Data.Time
+import Data.Time (UTCTime)
 
 import qualified Data.Time.Format as DT
 

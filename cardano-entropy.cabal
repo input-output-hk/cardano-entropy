@@ -51,9 +51,10 @@ common semigroups                 { build-depends: semigroups                 >=
 common stm                        { build-depends: stm                        >= 2.5        && < 2.6    }
 common streaming-bytestring       { build-depends: streaming-bytestring       >= 0.1.5      && < 0.3    }
 common streaming-utils            { build-depends: streaming-utils            >= 0.2        && < 0.3    }
+common split                      { build-depends: split                      >= 0.2.3      && < 0.2.4  }
 common temporary                  { build-depends: temporary                  >= 1.3        && < 1.4    }
 common text                       { build-depends: text                       >= 1.2.4.1    && < 1.3    }
-common time                       { build-depends: time                       >= 1.11.1.1   && < 1.12   }
+common time                       { build-depends: time                       >= 1.9        && < 1.12   }
 common transformers               { build-depends: transformers               >= 0.4        && < 0.6    }
 common unliftio-core              { build-depends: unliftio-core              >= 0.1.2.0    && < 0.3    }
 common unordered-containers       { build-depends: unordered-containers       >= 0.2.9.0    && < 0.3    }
@@ -82,6 +83,7 @@ library
                       , generic-lens
                       , lens
                       , network-bsd
+                      , split
                       , streaming-bytestring
                       , streaming-utils
                       , memory
@@ -95,10 +97,12 @@ library
                       , unordered-containers
                       , vector
                       , webdriver
-  exposed-modules:      Cardano.Entropy.Feed.Gis
+  exposed-modules:      Cardano.Entropy.Feed.GeolUoa
+                        Cardano.Entropy.Feed.Gis
                         Cardano.Entropy.Feed.Nyse
                         Cardano.Entropy.IO
                         Cardano.Entropy.Time
+                        Cardano.Entropy.Types.GeolUoa
                         Cardano.Entropy.Types.Gis
                         Cardano.Entropy.Types.Nyse
   other-modules:        Paths_cardano_entropy
@@ -125,6 +129,7 @@ executable cardano-entropy
                       , webdriver
   main-is:              Main.hs
   other-modules:        App.Cli.Commands
+                        App.Cli.Commands.GeolUoa
                         App.Cli.Commands.Gis
                         App.Cli.Commands.Nyse
                         App.Options
