@@ -40,25 +40,26 @@ hashGis opts = do
 
   downloadPath <- IO.createTempDirectory workspace "download"
 
-  weekCsvFile       <- pure $ downloadPath </> "all_week.csv"
-  dayInWeekCsvFile  <- pure $ downloadPath </> "day_in_week.csv"
+  req <- BSS.parseUrlThrow "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv"
 
-  req <- BSS.parseUrlThrow "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.csv"
+  monthCsvFile      <- pure $ downloadPath </> "all_month.csv"
+  dayInMonthCsvFile <- pure $ downloadPath </> "day_in_month.csv"
+
   m <- BSS.newManager BSS.tlsManagerSettings
-  IO.putStrLn $ "Writing to: " <> weekCsvFile
+  IO.putStrLn $ "Writing to: " <> monthCsvFile
 
   runResourceT $ do
     resp <- BSS.http req m
-    BSS.writeFile weekCsvFile $ BSS.responseBody resp
+    BSS.writeFile monthCsvFile $ BSS.responseBody resp
 
-  text <- T.readFile weekCsvFile
+  text <- T.readFile monthCsvFile
 
   let lines = T.lines text
 
-  T.putStrLn $ "Filtering within " <> startTimeStr <> " <= event < " <> endTimeStr <> " to: " <> T.pack dayInWeekCsvFile
+  T.putStrLn $ "Filtering within " <> startTimeStr <> " <= event < " <> endTimeStr <> " to: " <> T.pack dayInMonthCsvFile
 
   runResourceT $ do
-    (_, hOut) <- IO.openFileOrStd dayInWeekCsvFile IO.WriteMode
+    (_, hOut) <- IO.openFileOrStd dayInMonthCsvFile IO.WriteMode
 
     liftIO . forM_ (L.take 1 lines) $ T.hPutStrLn hOut
 
@@ -66,7 +67,7 @@ hashGis opts = do
 
     liftIO . forM_ filteredLines $ T.hPutStrLn hOut
 
-  contents <- liftIO $ BS.readFile dayInWeekCsvFile
+  contents <- liftIO $ BS.readFile dayInMonthCsvFile
   liftIO . IO.putStrLn $ "Hash: " <> show (hashWith SHA256 contents)
 
   return ()
