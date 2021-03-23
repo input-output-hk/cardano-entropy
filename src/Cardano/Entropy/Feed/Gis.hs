@@ -15,24 +15,18 @@ import Control.Monad.Trans.Resource
 import Crypto.Hash
 import Data.Generics.Product.Any
 import Data.Text                    (Text)
-import Data.Time                    (UTCTime)
-import Data.Vector                  (Vector)
-import System.FilePath              ((<.>), (</>))
+import Prelude                      hiding (lines)
+import System.FilePath              ((</>))
 
 import qualified Cardano.Entropy.IO             as IO
 import qualified Cardano.Entropy.Time           as DT
 import qualified Data.ByteString                as BS
-import qualified Data.ByteString.Lazy           as LBS
 import qualified Data.ByteString.Streaming.HTTP as BSS
-import qualified Data.Csv                       as CSV
 import qualified Data.List                      as L
-import qualified Data.Set                       as S
 import qualified Data.Text                      as T
 import qualified Data.Text.IO                   as T
 import qualified Data.Time.Clock                as DT
-import qualified Data.Time.Format               as DT
 import qualified Streaming.ByteString           as BSS
-import qualified System.Environment             as IO
 import qualified System.IO                      as IO
 import qualified System.IO.Temp                 as IO
 

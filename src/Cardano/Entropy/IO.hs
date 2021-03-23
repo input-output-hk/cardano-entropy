@@ -2,7 +2,7 @@ module Cardano.Entropy.IO
   ( openFileOrStd
   ) where
 
-import Control.Monad.IO.Class       (MonadIO, liftIO)
+import Control.Monad.IO.Class       (liftIO)
 import Control.Monad.Trans.Resource (MonadResource, ReleaseKey, allocate)
 import System.IO                    (Handle, IOMode)
 
