@@ -78,8 +78,6 @@ jobs:
       - name: Tag new version
         id: tag
         if: ${{ github.ref == 'refs/heads/main' }}
-        env:
-          server: http://hackage.haskell.org
         run: |
           package_version="$(cat *.cabal | grep '^version:' | cut -d : -f 2 | xargs)"
 
@@ -96,6 +94,11 @@ jobs:
               echo "::set-output name=tag::v$package_version"
             fi
           fi
+
+      - name: Show tag
+        run: |
+          echo "Ref: ${{ github.ref }}"
+          echo "Tag: ${{ steps.tag.outputs.tag }}"
 
   release:
     needs: [build, check]
