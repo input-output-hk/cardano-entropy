@@ -79,8 +79,6 @@ jobs:
         if: ${{ github.ref == 'refs/heads/main' }}
         env:
           server: http://hackage.haskell.org
-          username: ${{ secrets.HACKAGE_USER }}
-          password: ${{ secrets.HACKAGE_PASS }}
         run: |
           package_version="$(cat *.cabal | grep '^version:' | cut -d : -f 2 | xargs)"
 
