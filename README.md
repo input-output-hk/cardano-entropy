@@ -3,6 +3,7 @@
 ## Pre-requisites:
 
 ```bash
+$ brew install selenium-server-standalone
 $ brew install chromedriver
 ```
 
