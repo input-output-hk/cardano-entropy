@@ -1,0 +1,12 @@
+ 9b65457 Remove unused credentials. Cache configuration. Fix releases.
+ e1d3dd3 Also add selenium-server-standalone to readme
+ ff734f9 Fix date selection in gis
+ be12e7a Fix dayInWeekCsvFile
+ 59f0152 Add --date, --headless, and --exit-delay options.
+ 29eca45 Unused imports
+ 6b42a72 Adjust bounds
+ 49d6300 Add entropy from geol-uoa
+ 5b8bac8 Commands to download and hash NYSE and GIS data
+ 2067a94 Initial main
+ a8390ea Initial project
+ db53b90 Initial commit
