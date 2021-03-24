@@ -12,7 +12,8 @@ data NyseOptions = NyseOptions
   { workspace :: FilePath
   , username  :: Text
   , password  :: Text
-  , date      :: Day
+  , endDate   :: Day
+  , numDays   :: Int
   , headless  :: Bool
   , exitDelay :: Int
   } deriving (Eq, Generic, Show)

@@ -9,7 +9,7 @@ module Cardano.Entropy.Feed.Nyse
 
 import Cardano.Entropy.Types.Nyse (NyseOptions)
 import Control.Lens               ((^.))
-import Control.Monad              (join)
+import Control.Monad              (forM, join)
 import Control.Monad.IO.Class
 import Control.Monad.Loops        (untilJust)
 import Crypto.Hash
@@ -18,6 +18,7 @@ import Data.Bool                  (bool)
 import Data.Function
 import Data.Generics.Product.Any
 import Data.Maybe                 (listToMaybe)
+import System.FilePath            ((</>))
 
 import qualified Cardano.Entropy.Time     as DT
 import qualified Control.Concurrent       as IO
@@ -28,7 +29,10 @@ import qualified Data.HashMap.Strict      as HMS
 import qualified Data.List                as L
 import qualified Data.Text                as T
 import qualified Data.Text.IO             as T
+import           Data.Time                (Day)
+import qualified Data.Time.Calendar       as DT
 import qualified System.Directory         as IO
+import qualified System.Exit              as IO
 import qualified System.IO                as IO
 import qualified System.IO.Temp           as IO
 import qualified Test.WebDriver           as WD
@@ -36,13 +40,38 @@ import qualified Test.WebDriver           as WD
 hashNyse :: NyseOptions -> IO ()
 hashNyse opts = do
   let workspace         = opts ^. the @"workspace"
+  let endDate           = opts ^. the @"endDate"
+  let numDays           = opts ^. the @"numDays"
+
+  let startTime         = DT.addDays (-fromIntegral (numDays - 1)) endDate
+  let days              = [startTime .. endDate]
+
+  IO.putStrLn $ "Dates to download and proccess: " <> show [startTime .. endDate]
+
+  csvFiles <- fmap join    . forM days      $ downloadDay opts
+  contents <- fmap mconcat . forM csvFiles  $ BS.readFile
+
+  if BS.null contents
+    then do
+      IO.hPutStrLn IO.stderr "No data avilable"
+      IO.exitFailure
+    else do
+      processingPath  <- IO.createTempDirectory workspace "processing"
+
+      let dataFile = processingPath </> "data.csv"
+
+      IO.putStrLn $ "Writing: " <> dataFile
+      BS.writeFile dataFile contents
+
+      liftIO . IO.putStrLn $ "Hash: " <> show (hashWith SHA256 contents)
+
+downloadDay :: NyseOptions -> Day -> IO [FilePath]
+downloadDay opts day = do
+  let workspace         = opts ^. the @"workspace"
+  let headless          = opts ^. the @"headless"
   let username          = opts ^. the @"username"
   let password          = opts ^. the @"password"
-  let date              = opts ^. the @"date"
-  let headless          = opts ^. the @"headless"
   let exitDelaySeconds  = opts ^. the @"exitDelay"
-
-  IO.putStrLn $ show date <> " to " <> DT.showAmericanDate date
 
   downloadPath  <- IO.createTempDirectory workspace "download"
 
@@ -77,13 +106,13 @@ hashNyse opts = do
 
     WD.click nyseOption
     WD.clearInput dateInput
-    WD.sendKeys (T.pack (DT.showAmericanDate date) <> "\t") dateInput
+    WD.sendKeys (T.pack (DT.showAmericanDate day) <> "\t") dateInput
 
     liftIO $ IO.threadDelay 1000000
 
     messageText   <- WD.getText =<< WD.findElem (WD.ByCSS "span[id='ctl00_cph1_d1_lblMessage']")
 
-    if T.null messageText
+    result :: [FilePath] <- if T.null messageText
       then do
         WD.click =<< WD.findElem (WD.ByCSS "input[id='ctl00_cph1_d1_btnDownload']")
 
@@ -92,15 +121,22 @@ hashNyse opts = do
         case result of
           Right csvFile -> do
             liftIO . IO.putStrLn $ "Downloaded: " <> csvFile
-            contents <- liftIO $ BS.readFile csvFile
-            liftIO . IO.putStrLn $ "Hash: " <> show (hashWith SHA256 contents)
-          Left TimeoutError -> liftIO . IO.hPutStrLn IO.stderr $ "Timeout downloading data"
+            return [csvFile]
+          Left TimeoutError -> do
+            liftIO . IO.hPutStrLn IO.stderr $ "Warning: Unable to download data for " <> show day
+            liftIO . IO.hPutStrLn IO.stderr $ "Reason: Timeout downloading data"
+            return []
 
-        liftIO $ IO.threadDelay (exitDelaySeconds * 1000000)
       else do
-        liftIO $ T.hPutStrLn IO.stderr $ "Message: " <> messageText
+        liftIO . IO.hPutStrLn IO.stderr $ "Warning: Unable to download data for " <> show day
+        liftIO .  T.hPutStrLn IO.stderr $ "Reason: " <> messageText
+        return []
 
+    liftIO $ IO.threadDelay (exitDelaySeconds * 1000000)
     WD.closeSession
+
+    return result
+
 
 data TimeoutError = TimeoutError deriving (Eq, Show)
 

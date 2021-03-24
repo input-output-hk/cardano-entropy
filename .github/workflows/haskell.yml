@@ -7,7 +7,7 @@ defaults:
 on:
   push:
     branches:
-      - main
+      - 'main'
     tags:
       - "v*"
   pull_request:
