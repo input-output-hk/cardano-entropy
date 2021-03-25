@@ -20,7 +20,8 @@ Options:
 * `--worksapce`: Where temporary files will go.  This can be set to your temporary directory.
 * `--username`: Username obtained by registering on http://www.eoddata.com/.
 * `--password`: Password obtained by registering on http://www.eoddata.com/.
-* `--date`: The date for which end of day market data should be downloaded.  Format `YYYY-MM-DD`.
+* `--end-date`: The last date for which end of day market data should be downloaded.  Format `YYYY-MM-DD`.
+* `--days`: The number of days that should be downloaded.
 * `--headless`: Whether or not to run Chrome headless.  `True` or `False`.  Default `True`.
 
 ## Run to download GIS data and take its hash
