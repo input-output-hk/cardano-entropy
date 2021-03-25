@@ -20,13 +20,13 @@ optsJmaQuake = Z.JmaQuakeOptions
   <*> OPT.option OPT.readDateTime
       (   OPT.long "end-date-time"
       <>  OPT.short 'e'
-      <>  OPT.help "End data time of the capture window"
-      <>  OPT.metavar "DATE_TIME"
+      <>  OPT.help "End date time of the capture window.  Format: 'YYYY-MM-DDThh:mm:ss'"
+      <>  OPT.metavar "UTC_DATE_TIME"
       )
   <*> OPT.option OPT.auto
       (   OPT.long "hours"
       <>  OPT.short 'h'
-      <>  OPT.help "Length of the capture window"
+      <>  OPT.help "Length of the capture window in hours"
       <>  OPT.metavar "HOURS"
       )
 

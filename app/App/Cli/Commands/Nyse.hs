@@ -30,15 +30,15 @@ optsNyse = Z.NyseOptions
       <>  OPT.metavar "STRING"
       )
   <*> OPT.option OPT.readDate
-      (   OPT.long "end-date"
+      (   OPT.long "end-date-time"
       <>  OPT.short 'e'
-      <>  OPT.help "End date"
-      <>  OPT.metavar "UTC_DATE"
+      <>  OPT.help "End date time of the capture window.  Format: 'YYYY-MM-DDThh:mm:ss'"
+      <>  OPT.metavar "UTC_DATE_TIME"
       )
   <*> OPT.option OPT.auto
       (   OPT.long "days"
       <>  OPT.short 'd'
-      <>  OPT.help "Size of the capture window"
+      <>  OPT.help "Size of the capture window in days"
       <>  OPT.metavar "DAYS"
       <>  OPT.showDefault
       <>  OPT.value 2

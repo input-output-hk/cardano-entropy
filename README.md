@@ -65,6 +65,5 @@ Hash: 4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945
 Options:
 
 * `--workspace`: Where temporary files will go.  This can be set to your temporary directory.
-* `--end-date-time`: The date that marks the end of the window for which we want to filter the data.
+* `--end-date-time`: The date that marks the end of the window for which we want to filter the data.  The format is `YYYY-MM-DDThh:mm:ss`
 * `--hours`: The length window in hours for which we want to filter the data.
-

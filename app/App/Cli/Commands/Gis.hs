@@ -18,10 +18,10 @@ optsGis = Z.GisOptions
       <>  OPT.metavar "DIRECTORY"
       )
   <*> OPT.option OPT.readDateTime
-      (   OPT.long "end-date"
+      (   OPT.long "end-date-time"
       <>  OPT.short 'e'
-      <>  OPT.help "End Date"
-      <>  OPT.metavar "UTC_TIME"
+      <>  OPT.help "End date time of the capture window.  Format: 'YYYY-MM-DDThh:mm:ss'"
+      <>  OPT.metavar "UTC_DATE_TIME"
       )
 
 cmdGis :: Mod CommandFields (IO ())
