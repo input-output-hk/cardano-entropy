@@ -41,6 +41,7 @@ common hedgehog                   { build-depends: hedgehog                   >=
 common hspec                      { build-depends: hspec                      >= 2.4        && < 2.8    }
 common hw-hspec-hedgehog          { build-depends: hw-hspec-hedgehog          >= 0.1        && < 0.2    }
 common lens                       { build-depends: lens                       >= 5.0.1      && < 5.1    }
+common lens-aeson                 { build-depends: lens-aeson                 >= 1.1.1      && < 1.2    }
 common monad-loops                { build-depends: monad-loops                >= 0.4.3      && < 0.5    }
 common network-bsd                { build-depends: network-bsd                >= 2.8.1.0    && < 2.9    }
 common network-simple             { build-depends: network-simple             >= 0.4.5      && < 0.5    }
@@ -81,6 +82,7 @@ library
                       , filepath
                       , generic-lens
                       , lens
+                      , lens-aeson
                       , streaming-bytestring
                       , streaming-utils
                       , monad-loops
@@ -92,11 +94,13 @@ library
                       , webdriver
   exposed-modules:      Cardano.Entropy.Feed.GeolUoa
                         Cardano.Entropy.Feed.Gis
+                        Cardano.Entropy.Feed.JmaQuake
                         Cardano.Entropy.Feed.Nyse
                         Cardano.Entropy.IO
                         Cardano.Entropy.Time
                         Cardano.Entropy.Types.GeolUoa
                         Cardano.Entropy.Types.Gis
+                        Cardano.Entropy.Types.JmaQuake
                         Cardano.Entropy.Types.Nyse
   other-modules:        Paths_cardano_entropy
   autogen-modules:      Paths_cardano_entropy
@@ -111,6 +115,7 @@ executable cardano-entropy
   other-modules:        App.Cli.Commands
                         App.Cli.Commands.GeolUoa
                         App.Cli.Commands.Gis
+                        App.Cli.Commands.JmaQuake
                         App.Cli.Commands.Nyse
                         App.Options
   hs-source-dirs:       app
