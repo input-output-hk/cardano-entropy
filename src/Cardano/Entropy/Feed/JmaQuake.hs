@@ -11,6 +11,7 @@ import Cardano.Entropy.Types.JmaQuake (JmaQuakeOptions)
 import Control.Lens
 import Control.Monad.IO.Class         (liftIO)
 import Control.Monad.Trans.Resource
+import Crypto.Hash
 import Data.Aeson                     (Value)
 import Data.Generics.Product.Any
 import Data.Time.Clock                (UTCTime)
@@ -68,7 +69,9 @@ hashJmaQuake opts = do
       let events = v ^.. J.key "report" . J._Array . each
       let selectedEvents = L.filter (inRange startDateTime endDateTime) events
       IO.putStrLn $ "Filtered to " <> selectedEventsFile
-      LBS.writeFile selectedEventsFile $ J.encode selectedEvents
+      let selectedContents = J.encode selectedEvents
+      LBS.writeFile selectedEventsFile selectedContents
+      liftIO . IO.putStrLn $ "Hash: " <> show (hashWith SHA256 (LBS.toStrict selectedContents))
 
 inRange :: UTCTime -> UTCTime -> Value -> Bool
 inRange a z v = case v ^? J.key "reportDateTime" . J._String . to T.unpack . to DT.parseOldDateTime . _Just of
