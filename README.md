@@ -1,5 +1,7 @@
 # cardano-entropy
 
+[![workflow](https://github.com/input-output-hk/cardano-entropy/actions/workflows/haskell.yml/badge.svg?branch=main)](https://github.com/input-output-hk/cardano-entropy/actions/workflows/haskell.yml?branch=main)
+
 ## Pre-requisites:
 
 ```bash
