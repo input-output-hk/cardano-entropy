@@ -4,10 +4,22 @@
 
 ## Pre-requisites:
 
+### Install Selenium Server and Chrome Driver
+
+You will need both the Selenium Server and Chrome Driver installed.
+
+#### MacOS
+
 ```bash
 $ brew install selenium-server-standalone
 $ brew install chromedriver
 ```
+
+### Runing Selenium Server
+
+Some of the commands require that you have the selenium server running in the background:
+
+$ selenium-server -port 4444
 
 ## Run to download NYSE data and take its hash
 
