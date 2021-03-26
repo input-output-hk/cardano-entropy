@@ -26,23 +26,37 @@ Parameter-changing Tx must be included before:          Wed Apr 7, 21:44:51 UTC 
 
 You will need both the Selenium Server and Chrome Driver installed.
 
+Some of the commands require that you have the selenium server running in the background:
+
 #### MacOS
+
+To install:
 
 ```bash
 $ brew install selenium-server-standalone
 $ brew install chromedriver
 ```
 
-### Runing Selenium Server
+Then to run:
 
-Some of the commands require that you have the selenium server running in the background:
-
+```bash
 $ selenium-server -port 4444
+```
+
+#### MacOS or Linux via Docker
+
+To run:
+
+```bash
+$ docker run -d -p 4444:4444 -v /dev/shm:/dev/shm -v "$WORKSPACE:$WORKSPACE" selenium/standalone-chrome:4.0.0-beta-3-prerelease-20210321
+```
+
+Note, the directory pointed to by `$WORKSPACE` must exist and must remain the same for running the commands below.
 
 ## Run to download NYSE data and take its hash
 
 ```bash
-$ run cardano-entropy nyse --workspace="$WORKSPACE" --username="$USERNAME" --password="$PASSWORD" --date="$DATE"
+$ cardano-entropy nyse --workspace="$WORKSPACE" --username="$USERNAME" --password="$PASSWORD" --date="$DATE"
 Downloaded: /Users/jky/tmp/download-0ac80eea1ebf36da/NYSE_20210319.csv
 Hash: 42e1611e701d4b8885da5ef5cf54f2e4a56f77b675835fcae6c132aff09a0f46
 ```
