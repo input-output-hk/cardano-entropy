@@ -2,6 +2,24 @@
 
 [![workflow](https://github.com/input-output-hk/cardano-entropy/actions/workflows/haskell.yml/badge.svg?branch=main)](https://github.com/input-output-hk/cardano-entropy/actions/workflows/haskell.yml?branch=main)
 
+## Background
+
+IO Global scientists and engineers will inject transactions with metadata determined by several public sources of entropy: hashes of the closing prices of the New York Stock Exchange on April 6, and real-time seismic data from the US Geological Survey, the University of Athens, and the Japan Meteorological Society.
+
+A more detailed timeline of the process is presented below:
+
+```
+Epoch starts:                                           Mon Apr 5, 21:44:51 UTC = slot 0 of epoch 258
+Insert randomness generated on or after:                Tue Apr 6, 9:44:51 UTC = slot 43200 of epoch 258
+(NYSE opens)                                            Tue Apr 6, 13:30 UTC
+(NYSE closes)                                           Tue Apr 6, 20:00 UTC
+(NYSE data available on eoddata.com)                    Wed Apr 7, 1:00 UTC
+Seismic data window                                     Epoch start <= WINDOW < Wed Apr 7, 9:44:51 UTC
+Insert randomness before:                               Wed Apr 7, 15:44:51 UTC = slot 151200 of epoch 258
+Nonce = prev-block hash from first block on or after:   Wed Apr 7, 15:44:51 UTC = slot 151200 of epoch 258
+Parameter-changing Tx must be included before:          Wed Apr 7, 21:44:51 UTC = slot 172800 of epoch 258
+```
+
 ## Pre-requisites:
 
 ### Install Selenium Server and Chrome Driver
