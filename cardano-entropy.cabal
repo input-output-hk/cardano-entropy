@@ -1,7 +1,7 @@
 cabal-version: 3.0
 
 name:                   cardano-entropy
-version:                0.0.0.2
+version:                0.0.0.3
 synopsis:               Primitive functions and data types
 description:            Primitive functions and data types.
 category:               Data
