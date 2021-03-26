@@ -4,7 +4,19 @@
 
 ## Background
 
-IO Global scientists and engineers will inject transactions with metadata determined by several public sources of entropy: hashes of the closing prices of the New York Stock Exchange on April 6, and real-time seismic data from the US Geological Survey, the University of Athens, and the Japan Meteorological Society.
+The Cardano entropy parameter will be updated during the epoch starting on `April 5, 2021`;
+the entropy parameter will be determined by the hash of the last block prior to
+`Wed Apr 7`, `15:44:51 UTC = slot 151200` of `epoch 258`; this hash value appears in the first
+block appearing in slot `151200` or later.
+
+Considering the hash chain structure of the blockchain, this block hash is determined by the
+entire chain up to this point. Note that the parameter update mechanism requires delegates'
+votes to appear on-chain prior to `Wed Apr 7`, `15:44:51 UTC = slot 151200` of `epoch 25`.
+
+IO Global scientists and engineers will inject transactions with metadata determined by several
+public sources of entropy: hashes of the closing prices of the New York Stock Exchange on
+`April 6 2021`, and real-time seismic data from the US Geological Survey, the University of
+Athens, and the Japan Meteorological Society.
 
 A more detailed timeline of the process is presented below:
 
