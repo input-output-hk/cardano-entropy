@@ -94,7 +94,7 @@ Hash: 01100007fe87010b57521ebf3d3b5f5a7ab74b5153da00f3b8c607e3072f38dc
 Options:
 
 * `--workspace`: Where temporary files will go.  This can be set to your temporary directory.
-* `--date`: The date that marks the end of the 24 hour window for which we want to filter the data.
+* `--date-date`: The date that marks the end of the 24 hour window for which we want to filter the data.
 
 ## Run to download Japan Meteorological Society Earthquake data and take its hash
 
