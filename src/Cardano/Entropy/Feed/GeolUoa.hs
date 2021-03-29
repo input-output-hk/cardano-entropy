@@ -42,8 +42,8 @@ hashGeolUoa opts = do
 
   downloadPath <- IO.createTempDirectory workspace "download-geol-uoa"
 
-  let allYearFile      = downloadPath </> "all-year.csv"
-  let lastDayFile = downloadPath </> "last-day.csv"
+  let allYearFile      = downloadPath </> "all-year.txt"
+  let lastDayFile = downloadPath </> "last-day.txt"
 
   req <- BSS.parseUrlThrow "http://www.geophysics.geol.uoa.gr/stations/gmaps3/event_output2j.php?type=cat"
   m <- BSS.newManager BSS.tlsManagerSettings
