@@ -6,8 +6,8 @@ synopsis:               Primitive functions and data types
 description:            Primitive functions and data types.
 category:               Data
 stability:              Experimental
-homepage:               http://github.com/haskell-works/cardano-entropy#readme
-bug-reports:            https://github.com/haskell-works/cardano-entropy/issues
+homepage:               http://github.com/input-output-hk/cardano-entropy#readme
+bug-reports:            https://github.com/input-output-hk/cardano-entropy/issues
 author:                 John Ky
 maintainer:             operations@iohk.io
 copyright:              (c) 2021 IOHK
@@ -19,7 +19,7 @@ extra-source-files:     README.md
 
 source-repository head
   type:                 git
-  location:             https://github.com/haskell-works/cardano-entropy
+  location:             https://github.com/input-output-hk/cardano-entropy
 
 flag bounds-checking-enabled
   description:          Enable bmi2 instruction set
