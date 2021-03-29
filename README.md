@@ -85,9 +85,10 @@ Options:
 ## Run to download GIS data and take its hash
 
 ```bash
-$ cardano-entropy nyse --workspace="$WORKSPACE" --end-date="$DATE"
-Downloaded: /Users/jky/tmp/download-0ac80eea1ebf36da/NYSE_20210319.csv
-Hash: 42e1611e701d4b8885da5ef5cf54f2e4a56f77b675835fcae6c132aff09a0f46
+$ cardano-entropy gis --workspace="$WORKSPACE" --end-date="$DATE"
+Writing to: /Users/jky/tmp/download-373d2d3d91f049a8/all_month.csv
+Filtering within 2021-03-25T00:00:00 <= event < 2021-03-26T00:00:00 to: /Users/jky/tmp/download-373d2d3d91f049a8/day_in_month.csv
+Hash: 01100007fe87010b57521ebf3d3b5f5a7ab74b5153da00f3b8c607e3072f38dc
 ```
 
 Options:
@@ -95,7 +96,7 @@ Options:
 * `--workspace`: Where temporary files will go.  This can be set to your temporary directory.
 * `--date`: The date that marks the end of the 24 hour window for which we want to filter the data.
 
-## Run to download GIS data and take its hash
+## Run to download Japan Meteorological Society Earthquake data and take its hash
 
 ```bash
 $ cardano-entropy jma-quake --workspace="$WORKSPACE" --end-date-time "$END_DATE_TIME' --hours "$HOURS"
@@ -111,4 +112,3 @@ Options:
 * `--workspace`: Where temporary files will go.  This can be set to your temporary directory.
 * `--end-date-time`: The date that marks the end of the window for which we want to filter the data.
 * `--hours`: The length window in hours for which we want to filter the data.
-
