@@ -14,8 +14,8 @@ entire chain up to this point. Note that the parameter update mechanism requires
 votes to appear on-chain prior to `Wed Apr 7`, `15:44:51 UTC = slot 151200` of `epoch 25`.
 
 IO Global scientists and engineers will inject transactions with metadata determined by several
-public sources of entropy: hashes of the closing prices of the New York Stock Exchange on
-`April 6 2021`, and real-time seismic data from the US Geological Survey, the University of
+public sources of entropy: hashes of the closing prices of the New York Stock Exchange (NYSE) on
+`April 6 2021`, and real-time seismic data from the US Geological Survey (USGS), the University of
 Athens, and the Japan Meteorological Society.
 
 A more detailed timeline of the process is presented below:
@@ -32,40 +32,41 @@ Nonce = prev-block hash from first block on or after:   Wed Apr 7, 15:44:51 UTC 
 Parameter-changing Tx must be included before:          Wed Apr 7, 21:44:51 UTC = slot 172800 of epoch 258
 ```
 
-## Pre-requisites:
+## Pre-requisites
 
 ### Install Selenium Server and Chrome Driver
 
-You will need both the Selenium Server and Chrome Driver installed.
+This procedure requires the installation of both the Selenium Server *and* Chrome Driver installed.
 
-Some of the commands require that you have the selenium server running in the background:
+**Note**: Some of the commands require that you have the Selenium server running in the background.
 
-#### MacOS
+#### macOS
 
-To install:
+Use these commands to install the Selenium server and the Chrome Driver on macOS:
 
 ```bash
 $ brew install selenium-server-standalone
 $ brew install chromedriver
 ```
-
-Then to run:
+Run the server using:
 
 ```bash
 $ selenium-server -port 4444
 ```
 
-#### MacOS or Linux via Docker
+#### macOS (or Linux via Docker)
 
-To run:
+Use this command if you are using Docker in a Linux environment:
 
 ```bash
 $ docker run -d -p 4444:4444 -v /dev/shm:/dev/shm -v "$WORKSPACE:$WORKSPACE" selenium/standalone-chrome:4.0.0-beta-3-prerelease-20210321
 ```
 
-Note, the directory pointed to by `$WORKSPACE` must exist and must remain the same for running the commands below.
+**Note**: The directory pointed to by `$WORKSPACE` *must* exist and remain the same for running the commands below. In this example, we use the temporary directory `/Users/jky/tmp`.
 
-## Run to download NYSE data and take its hash
+## Download NYSE data and take its hash
+
+Run these commands to download data from the NYSE website and take the data's hash.
 
 ```bash
 $ cardano-entropy nyse --workspace="$WORKSPACE" --username="$USERNAME" --password="$PASSWORD" --date="$DATE"
@@ -75,14 +76,16 @@ Hash: 42e1611e701d4b8885da5ef5cf54f2e4a56f77b675835fcae6c132aff09a0f46
 
 Options:
 
-* `--worksapce`: Where temporary files will go.  This can be set to your temporary directory.
-* `--username`: Username obtained by registering on http://www.eoddata.com/.
-* `--password`: Password obtained by registering on http://www.eoddata.com/.
-* `--end-date`: The last date for which end of day market data should be downloaded.  Format `YYYY-MM-DD`.
+* `--workspace`: Where temporary files will go. This can be set to your temporary (tmp) directory.
+* `--username`: Username obtained by registering on [this end of day and historical stock data website](http://www.eoddata.com/).
+* `--password`: Password obtained by registering on [the same website](http://www.eoddata.com/).
+* `--end-date`: The last date for which end of day market data should be downloaded, in the format `YYYY-MM-DD`.
 * `--days`: The number of days that should be downloaded.
-* `--headless`: Whether or not to run Chrome headless.  `True` or `False`.  Default `True`.
+* `--headless`: Whether or not to run Chrome in headless mode. Options are `True` or `False`, default is set to `True`.
 
-## Run to download GIS data and take its hash
+## Download real-time seismic (GIS) data and take its hash
+
+Use these commands to download real-time seismic data, and take its hash:
 
 ```bash
 $ cardano-entropy gis --workspace="$WORKSPACE" --end-date="$DATE"
@@ -93,10 +96,12 @@ Hash: 01100007fe87010b57521ebf3d3b5f5a7ab74b5153da00f3b8c607e3072f38dc
 
 Options:
 
-* `--workspace`: Where temporary files will go.  This can be set to your temporary directory.
-* `--date-date`: The date that marks the end of the 24 hour window for which we want to filter the data.
+* `--workspace`: Where temporary files will go. This can be set to your temporary directory.
+* `--end-date`: The date that marks the end of the 24-hour window that we want to filter the data for, in the format 'YYYY-MM-DDTHH:MM:SS'
 
-## Run to download Japan Meteorological Society Earthquake data and take its hash
+## Download earthquake data from the Japan Meteorological Society (JMA) website, and take the data's hash
+
+Use these commands to download earthquake data from the Japan Meteorological Society website, and to take the data's hash.
 
 ```bash
 $ cardano-entropy jma-quake --workspace="$WORKSPACE" --end-date-time "$END_DATE_TIME' --hours "$HOURS"
@@ -109,6 +114,6 @@ Hash: 4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945
 
 Options:
 
-* `--workspace`: Where temporary files will go.  This can be set to your temporary directory.
-* `--end-date-time`: The date that marks the end of the window for which we want to filter the data.
+* `--workspace`: Where temporary files will go. This can be set to your temporary directory.
+* `--end-date-time`: The date that marks the end of the window that we want to filter the data for, in the format 'YYYY-MM-DDTHH:MM:SS'
 * `--hours`: The length window in hours for which we want to filter the data.
