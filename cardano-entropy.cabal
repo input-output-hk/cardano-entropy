@@ -38,6 +38,7 @@ common exceptions                 { build-depends: exceptions                 >=
 common filepath                   { build-depends: filepath                   >= 1.4.2.1    && < 1.5    }
 common generic-lens               { build-depends: generic-lens               >= 2.1.0.0    && < 2.2    }
 common hedgehog                   { build-depends: hedgehog                   >= 1.0        && < 1.1    }
+common hedgehog-extras            { build-depends: hedgehog-extras            >= 0.1.0.0    && < 0.2    }
 common hspec                      { build-depends: hspec                      >= 2.4        && < 2.8    }
 common hw-hspec-hedgehog          { build-depends: hw-hspec-hedgehog          >= 0.1        && < 0.2    }
 common lens                       { build-depends: lens                       >= 5.0.1      && < 5.1    }
@@ -123,6 +124,7 @@ executable cardano-entropy
 
 test-suite cardano-entropy-test
   import:               base, project-config
+                      , hedgehog-extras
                       , hspec
   type:                 exitcode-stdio-1.0
   main-is:              Spec.hs
