@@ -117,3 +117,17 @@ Options:
 * `--workspace`: Where temporary files will go. This can be set to your temporary directory.
 * `--end-date-time`: The date that marks the end of the window that we want to filter the data for, in the format 'YYYY-MM-DDTHH:MM:SS'
 * `--hours`: The length window in hours for which we want to filter the data.
+
+## Run to download Greek Geological data from University of Athens and take its hash
+
+```bash
+$ cardano-entropy geol-uoa --workspace="$WORKSPACE" --end-date="$END_DATE_TIME'
+Writing to: files/download-geol-uoa-c1ad91d51e90ebb5/all-year.csv
+Filtering within 2021-03-24T10:10:10 <= event < 2021-03-25T10:10:10 to: files/download-geol-uoa-c1ad91d51e90ebb5/last-day.csv
+Hash: 63acba6e344b537b0569c910940134d645beb3809e01e457759aec6b42c637fa
+```
+
+Options:
+
+* `--workspace`: Where temporary files will go.  This can be set to your temporary directory.
+* `--end-date`: The date that marks the end of the window for which we want to filter the data.
