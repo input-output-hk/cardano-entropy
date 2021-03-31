@@ -25,6 +25,7 @@ import qualified Cardano.Entropy.Time           as DT
 import qualified Data.ByteString                as BS
 import qualified Data.ByteString.Streaming.HTTP as BSS
 import qualified Data.List                      as L
+import           Data.Maybe
 import qualified Data.Text                      as T
 import qualified Data.Text.IO                   as T
 import qualified Data.Time.Clock                as DT
@@ -35,8 +36,12 @@ import qualified System.IO.Temp                 as IO
 hashGeolUoa :: GeolUoaOptions -> IO ()
 hashGeolUoa opts = do
   let workspace     = opts ^. the @"workspace"
-  let endTime       = opts ^. the @"endTime"
-  let startTime     = DT.addUTCTime (-24 * 60 * 60) endTime
+  let mEndTime      = opts ^. the @"endTime"
+  endTime <- case mEndTime of
+    Nothing -> DT.getCurrentTime
+    Just time -> return time
+  let window        = fromIntegral $ fromMaybe 36 $ opts ^. the @"timeWindow"
+  let startTime     = DT.addUTCTime (- window * 60 * 60) endTime
   let startTimeStr  = T.pack $ DT.showDateTime startTime
   let endTimeStr    = T.pack $ DT.showDateTime endTime
 
