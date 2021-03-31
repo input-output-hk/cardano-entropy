@@ -5,6 +5,7 @@ module App.Cli.Commands.GeolUoa
 import Options.Applicative
 
 import qualified App.Options                   as OPT
+import           Data.Foldable
 import qualified Cardano.Entropy.Feed.GeolUoa  as ENT
 import qualified Cardano.Entropy.Types.GeolUoa as Z
 import qualified Options.Applicative           as OPT
@@ -17,12 +18,21 @@ optsGeolUoa = Z.GeolUoaOptions
       <>  OPT.help "Workspace"
       <>  OPT.metavar "DIRECTORY"
       )
-  <*> OPT.option OPT.readDateTime
+  <*> mParser (OPT.option OPT.readDateTime
       (   OPT.long "end-date"
       <>  OPT.short 'e'
-      <>  OPT.help "End Date"
+      <>  OPT.help "End data time of the capture window. Defaults to now"
       <>  OPT.metavar "UTC_TIME"
-      )
+      ))
+  <*> mParser (OPT.option OPT.auto
+      (   OPT.long "hours"
+      <>  OPT.short 'h'
+      <>  OPT.help "Length of the capture window. Defaults to 36"
+      <>  OPT.metavar "HOURS"
+      ))
+
+mParser :: Parser a -> Parser (Maybe a)
+mParser parser = asum [Just <$> parser, pure Nothing]
 
 cmdGeolUoa :: Mod CommandFields (IO ())
 cmdGeolUoa = command "geol-uoa"  $ flip info idm $ ENT.hashGeolUoa <$> optsGeolUoa
