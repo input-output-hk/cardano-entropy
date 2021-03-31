@@ -69,12 +69,12 @@ $ docker run -d -p 4444:4444 -v /dev/shm:/dev/shm -v "$WORKSPACE:$WORKSPACE" sel
 Run these commands to download data from the NYSE website and take the data's hash.
 
 ```bash
-$ cardano-entropy nyse --workspace="$WORKSPACE" --username="$USERNAME" --password="$PASSWORD" --end-date="$DATE"
+$ cardano-entropy nyse --workspace="$WORKSPACE" --username="$USERNAME" --password="$PASSWORD" --end-date="$DATE" --days "$NUM_DAYS"
 Downloaded: /Users/jky/tmp/download-0ac80eea1ebf36da/NYSE_20210319.csv
 Hash: 42e1611e701d4b8885da5ef5cf54f2e4a56f77b675835fcae6c132aff09a0f46
 ```
 
-Options:
+### Options
 
 * `--workspace`: Where temporary files will go. This can be set to your temporary (tmp) directory.
 * `--username`: Username obtained by registering on [this end of day and historical stock data website](http://www.eoddata.com/).
@@ -94,10 +94,15 @@ Filtering within 2021-03-25T00:00:00 <= event < 2021-03-26T00:00:00 to: /Users/j
 Hash: 01100007fe87010b57521ebf3d3b5f5a7ab74b5153da00f3b8c607e3072f38dc
 ```
 
-Options:
+### Options
 
 * `--workspace`: Where temporary files will go. This can be set to your temporary directory.
 * `--end-date`: The date that marks the end of the 24-hour window that we want to filter the data for, in the format 'YYYY-MM-DDTHH:MM:SS'
+* `--hours`: The length window in hours for which we want to filter the data.
+
+### Caveats
+The available data is monthly and is only available for the current month.  This means a time window that straddles a month boundary will
+be incomplete.
 
 ## Download earthquake data from the Japan Meteorological Society (JMA) website, and take the data's hash
 
@@ -112,11 +117,14 @@ Filtered to /Users/jky/tmp/download-jma-quake-74d6be37c450a863/selected.json
 Hash: 4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945
 ```
 
-Options:
+### Options
 
 * `--workspace`: Where temporary files will go. This can be set to your temporary directory.
 * `--end-date-time`: The date that marks the end of the window that we want to filter the data for, in the format 'YYYY-MM-DDTHH:MM:SS'
 * `--hours`: The length window in hours for which we want to filter the data.
+
+### Caveats
+The available data is available for the last seven days.  A time window that extends outside this will be incomplete.
 
 ## Run to download Greek Geological data from University of Athens and take its hash
 
@@ -127,7 +135,7 @@ Filtering within 2021-03-24T10:10:10 <= event < 2021-03-25T10:10:10 to: files/do
 Hash: 63acba6e344b537b0569c910940134d645beb3809e01e457759aec6b42c637fa
 ```
 
-Options:
+### Options
 
 * `--workspace`: Where temporary files will go.  This can be set to your temporary directory.
 * `--end-date-time`: The date that marks the end of the window that we want to filter the data for, in the format 'YYYY-MM-DDTHH:MM:SS'. It defaults to now.

@@ -13,6 +13,7 @@ import Control.Monad
 import Control.Monad.IO.Class
 import Control.Monad.Trans.Resource
 import Crypto.Hash
+import Data.Function
 import Data.Generics.Product.Any
 import Data.Text                    (Text)
 import Prelude                      hiding (lines)
@@ -34,7 +35,8 @@ hashGis :: GisOptions -> IO ()
 hashGis opts = do
   let workspace     = opts ^. the @"workspace"
   let endTime       = opts ^. the @"endTime"
-  let startTime     = DT.addUTCTime (-24 * 60 * 60) endTime
+  let numHours      = opts ^. the @"numHours" & fromIntegral
+  let startTime     = DT.addUTCTime (-numHours * 60 * 60) endTime
   let startTimeStr  = T.pack $ DT.showDateTime startTime
   let endTimeStr    = T.pack $ DT.showDateTime endTime
 
@@ -43,7 +45,6 @@ hashGis opts = do
   req <- BSS.parseUrlThrow "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv"
 
   monthCsvFile      <- pure $ downloadPath </> "all_month.csv"
-  dayInMonthCsvFile <- pure $ downloadPath </> "day_in_month.csv"
 
   m <- BSS.newManager BSS.tlsManagerSettings
   IO.putStrLn $ "Writing to: " <> monthCsvFile
@@ -55,6 +56,8 @@ hashGis opts = do
   text <- T.readFile monthCsvFile
 
   let lines = T.lines text
+
+  dayInMonthCsvFile <- pure $ downloadPath </> "day_in_month.csv"
 
   T.putStrLn $ "Filtering within " <> startTimeStr <> " <= event < " <> endTimeStr <> " to: " <> T.pack dayInMonthCsvFile
 

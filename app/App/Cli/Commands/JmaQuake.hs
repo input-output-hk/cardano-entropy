@@ -20,14 +20,16 @@ optsJmaQuake = Z.JmaQuakeOptions
   <*> OPT.option OPT.readDateTime
       (   OPT.long "end-date-time"
       <>  OPT.short 'e'
-      <>  OPT.help "End data time of the capture window"
-      <>  OPT.metavar "DATE_TIME"
+      <>  OPT.help "End data time of the capture window."
+      <>  OPT.metavar "UTC_TIME"
       )
   <*> OPT.option OPT.auto
       (   OPT.long "hours"
       <>  OPT.short 'h'
-      <>  OPT.help "Length of the capture window"
+      <>  OPT.help "Length of the capture window."
       <>  OPT.metavar "HOURS"
+      <>  OPT.value 36
+      <>  OPT.showDefault
       )
 
 cmdJmaQuake :: Mod CommandFields (IO ())
