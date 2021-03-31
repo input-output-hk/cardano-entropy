@@ -4,12 +4,11 @@ module Cardano.Entropy.Types.JmaQuake
   ( JmaQuakeOptions(..)
   ) where
 
-import Data.Fixed
 import Data.Time.Clock (UTCTime)
 import GHC.Generics    (Generic)
 
 data JmaQuakeOptions = JmaQuakeOptions
-  { workspace :: FilePath
+  { workspace   :: FilePath
   , endDateTime :: UTCTime
-  , hours :: Pico
+  , numHours    :: Int
   } deriving (Eq, Generic, Show)

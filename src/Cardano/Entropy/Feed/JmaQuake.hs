@@ -34,10 +34,10 @@ import qualified System.IO.Temp                 as IO
 hashJmaQuake :: JmaQuakeOptions -> IO ()
 hashJmaQuake opts = do
   let workspace   = opts ^. the @"workspace"
-  let hours       = opts ^. the @"hours"
+  let numHours    = opts ^. the @"numHours" & fromIntegral
   let endDateTime = opts ^. the @"endDateTime"
 
-  let startDateTime   = DT.addUTCTime (-DT.secondsToNominalDiffTime (hours * 60 * 60)) endDateTime
+  let startDateTime   = DT.addUTCTime (-DT.secondsToNominalDiffTime (numHours * 60 * 60)) endDateTime
   let nowPosixMillis  = floor $ DT.utcTimeToPOSIXSeconds endDateTime * 1000
 
   let uri = "https://www.data.jma.go.jp/multi/data/VXSE53/en.json?_=" <> show @Int nowPosixMillis
