@@ -7,7 +7,7 @@ defaults:
 on:
   push:
     branches:
-      - 'main'
+      - 'master'
     tags:
       - "v*"
   pull_request:
@@ -152,7 +152,7 @@ jobs:
 
       - name: Tag new version
         id: tag
-        if: ${{ github.ref == 'refs/heads/main' }}
+        if: ${{ github.ref == 'refs/heads/master' }}
         run: |
           package_version="$(cat *.cabal | grep '^version:' | cut -d : -f 2 | xargs)"
 
