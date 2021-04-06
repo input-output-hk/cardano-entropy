@@ -31,6 +31,7 @@ common base                       { build-depends: base                       >=
 common aeson                      { build-depends: aeson                      >= 1.5        && < 1.6    }
 common async                      { build-depends: async                      >= 2.2.3      && < 2.3    }
 common bytestring                 { build-depends: bytestring                 >= 0.9        && < 0.11   }
+common hw-dsv                     { build-depends: hw-dsv                     >= 0.4.1.0    && < 0.5    }
 common containers                 { build-depends: containers                 >= 0.6.4.1    && < 0.7    }
 common cryptonite                 { build-depends: cryptonite                 >= 0.28       && < 0.29   }
 common directory                  { build-depends: directory                  >= 1.2        && < 1.4    }
@@ -77,6 +78,7 @@ library
                       , aeson
                       , async
                       , bytestring
+                      , hw-dsv
                       , cryptonite
                       , directory
                       , filepath

@@ -19,17 +19,21 @@ import Data.Text                    (Text)
 import Prelude                      hiding (lines)
 import System.FilePath              ((</>))
 
-import qualified Cardano.Entropy.IO             as IO
-import qualified Cardano.Entropy.Time           as DT
-import qualified Data.ByteString                as BS
-import qualified Data.ByteString.Streaming.HTTP as BSS
-import qualified Data.List                      as L
-import qualified Data.Text                      as T
-import qualified Data.Text.IO                   as T
-import qualified Data.Time.Clock                as DT
-import qualified Streaming.ByteString           as BSS
-import qualified System.IO                      as IO
-import qualified System.IO.Temp                 as IO
+import qualified Cardano.Entropy.IO                     as IO
+import qualified Cardano.Entropy.Time                   as DT
+import qualified Data.ByteString                        as BS
+import qualified Data.ByteString.Builder                as B
+import qualified Data.ByteString.Lazy                   as LBS
+import qualified Data.ByteString.Streaming.HTTP         as BSS
+import qualified Data.List                              as L
+import qualified Data.Text                              as T
+import qualified Data.Text.IO                           as T
+import qualified Data.Time.Clock                        as DT
+import qualified HaskellWorks.Data.Dsv.Lazy.Cursor      as SVL
+import qualified HaskellWorks.Data.Dsv.Lazy.Cursor.Lazy as SVLL
+import qualified Streaming.ByteString                   as BSS
+import qualified System.IO                              as IO
+import qualified System.IO.Temp                         as IO
 
 hashGis :: GisOptions -> IO ()
 hashGis opts = do
@@ -44,16 +48,28 @@ hashGis opts = do
 
   req <- BSS.parseUrlThrow "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv"
 
-  monthCsvFile      <- pure $ downloadPath </> "all_month.csv"
+  dirtyMonthCsvFile      <- pure $ downloadPath </> "dirty_all_month.csv"
+
+  cleanMonthCsvFile      <- pure $ downloadPath </> "clean_all_month.csv"
 
   m <- BSS.newManager BSS.tlsManagerSettings
-  IO.putStrLn $ "Writing to: " <> monthCsvFile
+  IO.putStrLn $ "Writing to: " <> dirtyMonthCsvFile
 
   runResourceT $ do
     resp <- BSS.http req m
-    BSS.writeFile monthCsvFile $ BSS.responseBody resp
+    BSS.writeFile dirtyMonthCsvFile $ BSS.responseBody resp
 
-  text <- T.readFile monthCsvFile
+  IO.putStrLn $ "Cleaning to: " <> cleanMonthCsvFile
+
+  bs <- LBS.readFile dirtyMonthCsvFile
+
+  let c = SVL.makeCursor 44 bs -- 44 is ASCII for comma
+  let dirtyRows = SVLL.toListList c
+  let cleanRows = fmap (dropAtN 14) dirtyRows
+
+  writeCsv cleanMonthCsvFile cleanRows
+
+  text <- T.readFile cleanMonthCsvFile
 
   let lines = T.lines text
 
@@ -74,6 +90,19 @@ hashGis opts = do
   liftIO . IO.putStrLn $ "Hash: " <> show (hashWith SHA256 contents)
 
   return ()
+
+writeCsv :: FilePath -> [[LBS.ByteString]] -> IO ()
+writeCsv filePath rows = do
+  hOut <- IO.openBinaryFile filePath IO.WriteMode
+
+  forM_ rows $ \row -> do
+    liftIO $ B.hPutBuilder hOut $ mconcat (L.intersperse (B.word8 44) (fmap B.lazyByteString row)) <> B.word8 10
+
+  IO.hClose hOut
+
+-- | Drop the nth element in the list
+dropAtN :: Int -> [a] -> [a]
+dropAtN n as = L.take (n - 1) as <> L.drop n as
 
 ocBetween :: Ord a => a -> a -> a -> Bool
 ocBetween l r a = l <= a && a < r
