@@ -142,11 +142,22 @@ Hash: 63acba6e344b537b0569c910940134d645beb3809e01e457759aec6b42c637fa
 * `--hours` : The length window in hours for which we want to filter the data. It defaults to 36.
 
 
+## Verify the collected entropy in the blockchain
 
-## Simple verification of the collected entropy in the blockchain without running the scripts
+#### verify without running the scripts
 Anyone can easily verify the collected entropy in the following way:
 
 - The data collected from the 3 sources: Nyse, GR-quakes and JP-quakes can be found in these files [NYSE.csv](https://github.com/input-output-hk/cardano-entropy/tree/master/files/NYSE.csv) , [Quake-GR.txt](https://github.com/input-output-hk/cardano-entropy/tree/master/files/Quake-GR.txt), [Quake-JP.json](https://github.com/input-output-hk/cardano-entropy/tree/master/files/Quake-JP.json). The hashes of these files, that can be recreate using simple tools like `sha256sum` are posted in this transaction [ef5225a96b3d6e2990723d0fdf07caa276df1f1f65e1a748ad0922822e9e9a16](https://explorer.cardano.org/en/transaction?id=ef5225a96b3d6e2990723d0fdf07caa276df1f1f65e1a748ad0922822e9e9a16)
 
 - The data collected from GIS can be found in the download-* folders under [gis](https://github.com/input-output-hk/cardano-entropy/tree/master/files/gis).
 We collected multiple similar versions of the same files from this source, because it was very frequently updated. The hashes of these files can be found in [sha256-summary.txt](https://github.com/input-output-hk/cardano-entropy/blob/master/files/gis/sha256-summary.txt). This file can be easily verified and recreated by running a script like `for f in download-*; do sha256sum "$f/day_in_month.csv"; done` inside the gis directory. Its hashes are posted in alphabetical order in this transaction: [ea812c10ac92a8724fb9e6ec4aedd5edd0532dc9364b6327a07d7005d32a3932](https://explorer.cardano.org/en/transaction?id=ea812c10ac92a8724fb9e6ec4aedd5edd0532dc9364b6327a07d7005d32a3932).
+
+#### verify by running the scripts and collecting the data yourselves
+Another way to verify the process is to use the scripts and collect the data yourself. To achieve this, first build the code in this repository and then run this [script](https://github.com/input-output-hk/cardano-entropy/blob/master/run.sh). To run it you should define first some variables:
+- workspace : an existing folder where data will be downloaded
+- username : your username for your free account at http://www.eoddata.com/
+- password : your matching password
+- end_date='2021-04-06' : the day we collected data from NYSE
+- end_date_time='2021-04-07T09:44:51' : the end date we collected data from the other sources.
+
+The script, among other things, will print 3 hashes for sources Nyse, GR-quakes and JP-quakes. Its hashes can be found in this transaction [ef5225a96b3d6e2990723d0fdf07caa276df1f1f65e1a748ad0922822e9e9a16](https://explorer.cardano.org/en/transaction?id=ef5225a96b3d6e2990723d0fdf07caa276df1f1f65e1a748ad0922822e9e9a16).
