@@ -141,3 +141,12 @@ Hash: 63acba6e344b537b0569c910940134d645beb3809e01e457759aec6b42c637fa
 * `--end-date-time`: The date that marks the end of the window that we want to filter the data for, in the format 'YYYY-MM-DDTHH:MM:SS'. It defaults to now.
 * `--hours` : The length window in hours for which we want to filter the data. It defaults to 36.
 
+
+
+## Simple verification of the collected entropy in the blockchain without running the scripts
+Anyone can easily verify the collected entropy in the following way:
+
+- The data collected from the 3 sources: Nyse, GR-quakes and JP-quakes can be found in these files [NYSE.csv](https://github.com/input-output-hk/cardano-entropy/tree/master/files/NYSE.csv) , [Quake-GR.txt](https://github.com/input-output-hk/cardano-entropy/tree/master/files/Quake-GR.txt), [Quake-JP.json](https://github.com/input-output-hk/cardano-entropy/tree/master/files/Quake-JP.json). The hashes of these files, that can be recreate using simple tools like `sha256sum` are posted in this transaction [ef5225a96b3d6e2990723d0fdf07caa276df1f1f65e1a748ad0922822e9e9a16](https://explorer.cardano.org/en/transaction?id=ef5225a96b3d6e2990723d0fdf07caa276df1f1f65e1a748ad0922822e9e9a16)
+
+- The data collected from GIS can be found in the download-* folders under [gis](https://github.com/input-output-hk/cardano-entropy/tree/master/files/gis).
+We collected multiple similar versions of the same files from this source, because it was very frequently updated. The hashes of these files can be found in [sha256-summary.txt](https://github.com/input-output-hk/cardano-entropy/blob/master/files/gis/sha256-summary.txt). This file can be easily verified and recreated by running a script like `for f in download-*; do sha256sum "$f/day_in_month.csv"; done` inside the gis directory. Its hashes are posted in alphabetical order in this transaction: [ea812c10ac92a8724fb9e6ec4aedd5edd0532dc9364b6327a07d7005d32a3932](https://explorer.cardano.org/en/transaction?id=ea812c10ac92a8724fb9e6ec4aedd5edd0532dc9364b6327a07d7005d32a3932).
