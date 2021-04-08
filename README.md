@@ -153,11 +153,11 @@ Anyone can easily verify the collected entropy in the following way:
 We collected multiple similar versions of the same files from this source, because it was very frequently updated. The hashes of these files can be found in [sha256-summary.txt](https://github.com/input-output-hk/cardano-entropy/blob/master/files/gis/sha256-summary.txt). This file can be easily verified and recreated by running a script like `for f in download-*; do sha256sum "$f/day_in_month.csv"; done` inside the gis directory. Its hashes are posted in alphabetical order in this transaction: [ea812c10ac92a8724fb9e6ec4aedd5edd0532dc9364b6327a07d7005d32a3932](https://explorer.cardano.org/en/transaction?id=ea812c10ac92a8724fb9e6ec4aedd5edd0532dc9364b6327a07d7005d32a3932).
 
 #### verify by running the scripts and collecting the data yourselves
-Another way to verify the process is to use the scripts and collect the data yourself. To achieve this, first build the code in this repository and then run this [script](https://github.com/input-output-hk/cardano-entropy/blob/master/run.sh). To run it you should define first some variables:
+Another way to verify the process is to use the scripts and collect the data yourself. To achieve this, first build the code in this repository,run  selenium server as described above and then run this [script](https://github.com/input-output-hk/cardano-entropy/blob/master/run.sh). To run it you should define first some variables:
 - workspace : an existing folder where data will be downloaded
 - username : your username for your free account at http://www.eoddata.com/
 - password : your matching password
 - end_date='2021-04-06' : the day we collected data from NYSE
 - end_date_time='2021-04-07T09:44:51' : the end date we collected data from the other sources.
 
-The script, among other things, will print 3 hashes for sources Nyse, GR-quakes and JP-quakes. Its hashes can be found in this transaction [ef5225a96b3d6e2990723d0fdf07caa276df1f1f65e1a748ad0922822e9e9a16](https://explorer.cardano.org/en/transaction?id=ef5225a96b3d6e2990723d0fdf07caa276df1f1f65e1a748ad0922822e9e9a16).
+The script, among other things, will print 3 hashes for sources Nyse, GR-quakes and JP-quakes. Its hashes can be found in this transaction [ef5225a96b3d6e2990723d0fdf07caa276df1f1f65e1a748ad0922822e9e9a16](https://explorer.cardano.org/en/transaction?id=ef5225a96b3d6e2990723d0fdf07caa276df1f1f65e1a748ad0922822e9e9a16). For validating the 4th sources (GIS data) it's easier to use the steps in the previous section.
